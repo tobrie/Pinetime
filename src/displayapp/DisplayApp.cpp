@@ -20,6 +20,7 @@
 #include "displayapp/screens/ApplicationList.h"
 #include "displayapp/screens/FirmwareValidation.h"
 #include "displayapp/screens/InfiniPaint.h"
+#include "displayapp/screens/StopWatch.h"
 #include "systemtask/SystemTask.h"
 
 using namespace Pinetime::Applications;
@@ -208,6 +209,7 @@ void DisplayApp::RunningState() {
       case Apps::Music : currentScreen.reset(new Screens::Music(this, systemTask.nimble().music())); break;
       case Apps::FirmwareValidation: currentScreen.reset(new Screens::FirmwareValidation(this, validator)); break;
       case Apps::Notifications: currentScreen.reset(new Screens::Notifications(this, notificationManager, Screens::Notifications::Modes::Normal)); break;
+      case Apps::StopWatch: currentScreen.reset(new Screens::StopWatch(this)); break;
     }
     nextApp = Apps::None;
   }

@@ -346,6 +346,7 @@ list(APPEND SOURCE_FILES
         displayapp/screens/FirmwareValidation.cpp
         displayapp/screens/ApplicationList.cpp
         displayapp/screens/Notifications.cpp
+	displayapp/screens/StopWatch.cpp
         main.cpp
         drivers/St7789.cpp
         drivers/SpiNorFlash.cpp
@@ -428,6 +429,7 @@ set(INCLUDE_FILES
         displayapp/screens/ApplicationList.h
         displayapp/Apps.h
         displayapp/screens/Notifications.h
+        displayapp/screens/StopWatch.h
         drivers/St7789.h
         drivers/SpiNorFlash.h
         drivers/SpiMaster.h
