@@ -22,7 +22,15 @@ core
 sdk
 src/Version.h
 docker/post_build.sh
+tools/post_build.sh
 Testing/Temporary/
+
+# sdk and venv
+gcc-arm-none-eabi*/
+infinitime-venv/
+nRF5_SDK*/
+mcuboot/
+src/mcuboot/
 
 # Linux
 **/.directory
@@ -32,4 +40,4 @@ Testing/Temporary/
 **/.DS_Store
 
 # Windows
-**/thumbs.db
+**/thumbs.dbtotal 1.7M

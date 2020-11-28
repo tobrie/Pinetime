@@ -1,0 +1,16 @@
+#!/bin/sh
+mkdir -p build/output
+
+mcuboot/scripts/imgtool.py create --align 4 --version 1.0.0 --header-size 32 --slot-size 475136 --pad-header \
+       build/src/pinetime-mcuboot-app-@PROJECT_VERSION_MAJOR@.@PROJECT_VERSION_MINOR@.@PROJECT_VERSION_PATCH@.bin \
+       build/output/image-@PROJECT_VERSION_MAJOR@.@PROJECT_VERSION_MINOR@.@PROJECT_VERSION_PATCH@.bin
+
+adafruit-nrfutil dfu genpkg --dev-type 0x0052 \
+	--application build/output/image-@PROJECT_VERSION_MAJOR@.@PROJECT_VERSION_MINOR@.@PROJECT_VERSION_PATCH@.bin \
+	build/output/dfu-@PROJECT_VERSION_MAJOR@.@PROJECT_VERSION_MINOR@.@PROJECT_VERSION_PATCH@.zip
+
+cp build/src/*.bin build/output/
+cp build/src/*.hex build/output/
+cp build/src/*.out build/output/
+cp build/src/*.map build/output/
+cp bootloader/bootloader-5.0.4.bin build/output/bootloader.bin
