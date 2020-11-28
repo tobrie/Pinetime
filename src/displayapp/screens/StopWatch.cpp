@@ -1,21 +1,26 @@
 #include "../DisplayApp.h"
-
+#include "components/datetime/DateTimeController.h"
 #include "StopWatch.h"
+#include "Symbols.h"
 
 using namespace Pinetime::Applications::Screens;
 
-using std::chrono::system_clock;
 using std::chrono::duration;
 using std::chrono::duration_cast;
 
 extern lv_font_t jetbrains_mono_extrabold_compressed;
 extern lv_font_t jetbrains_mono_bold_20;
-extern lv_style_t* LabelBigStyle;
 
-StopWatch::StopWatch(DisplayApp* app) : Screen(app) {
+StopWatch::StopWatch(DisplayApp* app,
+                     Controllers::DateTime& dateTimeController) : Screen(app),
+                     dateTimeController{dateTimeController} {
+
   label = lv_label_create(lv_scr_act(), nullptr);
-  lv_obj_align(label, lv_scr_act(), LV_ALIGN_IN_LEFT_MID, 0, 0);
+  lv_obj_align(label, lv_scr_act(), LV_ALIGN_CENTER, 0, 0);
   lv_label_set_align(label, LV_LABEL_ALIGN_CENTER);
+
+  start_stop_label = lv_label_create(lv_scr_act(), nullptr);
+  lv_obj_align(start_stop_label, label, LV_ALIGN_CENTER, 0, 10);
 }
 
 StopWatch::~StopWatch() {
@@ -48,7 +53,9 @@ bool StopWatch::OnTouchEvent(Pinetime::Applications::TouchEvents event) {
       }
       return true;
     case TouchEvents::SwipeDown:
-      reset();
+      if (!stopWatchRunning) {
+        reset();
+      }
       return true;
     default:
       return false;
@@ -56,11 +63,13 @@ bool StopWatch::OnTouchEvent(Pinetime::Applications::TouchEvents event) {
 }
 
 void StopWatch::start() {
-  startTime = system_clock::now();
+  startTime = dateTimeController.CurrentDateTime();
+  lv_label_set_text(start_stop_label, Symbols::play);
   stopWatchRunning = true;
 }
 
 void StopWatch::stop() {
+  lv_label_set_text(start_stop_label, Symbols::pause);
   stopWatchRunning = false;
 }
 
@@ -69,6 +78,8 @@ void StopWatch::reset() {
 }
 
 float StopWatch::getCurrentTime() {
-  duration<float> delta = duration_cast<duration<float>>(system_clock::now() - startTime);
-  return delta.count();
+  //TickType_t delta = xTaskGetTickCount() - startTime; // <- alternative
+  duration<float> delta =
+      duration_cast<duration<float>>(dateTimeController.CurrentDateTime() - startTime);
+  return (float) delta.count();
 }

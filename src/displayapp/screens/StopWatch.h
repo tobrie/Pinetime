@@ -9,7 +9,7 @@ namespace Pinetime {
     namespace Screens {
       class StopWatch : public Screen {
         public:
-          StopWatch(DisplayApp *app);
+          StopWatch(DisplayApp *app, Controllers::DateTime& dateTimeController);
           ~StopWatch() override;
 
           bool Refresh() override;
@@ -25,9 +25,11 @@ namespace Pinetime {
           float currentTime = 0.0f;
           bool stopWatchRunning = false;
 
+          Controllers::DateTime& dateTimeController;
           std::chrono::system_clock::time_point startTime;
 
           lv_obj_t *label;
+          lv_obj_t *start_stop_label;
 
           bool running = true;
       };

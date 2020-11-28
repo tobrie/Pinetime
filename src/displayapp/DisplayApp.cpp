@@ -209,7 +209,7 @@ void DisplayApp::RunningState() {
       case Apps::Music : currentScreen.reset(new Screens::Music(this, systemTask.nimble().music())); break;
       case Apps::FirmwareValidation: currentScreen.reset(new Screens::FirmwareValidation(this, validator)); break;
       case Apps::Notifications: currentScreen.reset(new Screens::Notifications(this, notificationManager, Screens::Notifications::Modes::Normal)); break;
-      case Apps::StopWatch: currentScreen.reset(new Screens::StopWatch(this)); break;
+      case Apps::StopWatch: currentScreen.reset(new Screens::StopWatch(this, dateTimeController)); break;
     }
     nextApp = Apps::None;
   }
